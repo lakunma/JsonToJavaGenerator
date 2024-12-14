@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+    id 'org.jsonschema2pojo' version '1.2.2'
+}
+
+group = 'com.github.lakunma'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.4.2'
+}
+
+jsonSchema2Pojo {
+    source = files(
+            'src/main/resources/json'
+    )
+    targetDirectory = file("$buildDir/generated-sources")
+    targetPackage = 'com.example.generated'
+    sourceType = 'json'
+}
+
+compileJava.dependsOn generateJsonSchema2Pojo
+sourceSets.main.java.srcDirs += file("$buildDir/generated-sources")
